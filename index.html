@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhishGuard - Regex & Automata Phishing Detector</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <span class="badge"><i class="fa-solid fa-shield-halved"></i> CS Practical Project</span>
+      <h1>PhishGuard</h1>
+      <p class="subtitle">A Regex & Finite Automata-Based Phishing Pattern Inspector</p>
+    </div>
+  </header>
+
+  <nav>
+    <button class="nav-btn active" data-tab="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</button>
+    <button class="nav-btn" data-tab="results"><i class="fa-solid fa-magnifying-glass"></i> Detection Results</button>
+    <button class="nav-btn" data-tab="automata"><i class="fa-solid fa-diagram-project"></i> Automata Visualizer</button>
+    <button class="nav-btn" data-tab="regex"><i class="fa-solid fa-code"></i> Regex Lab</button>
+  </nav>
+
+  <div class="container">
+
+    <!-- DASHBOARD TAB -->
+    <div id="dashboard" class="tab-content active">
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-paste" style="color:#f7a8b8;"></i> Input Inspector</div>
+        <p style="margin-bottom:12px; color:var(--text-muted);">Enter an email address, URL, or suspicious message body to analyze with Regular Expressions & Deterministic Finite Automata (DFA).</p>
+        <textarea id="targetInput" placeholder="e.g., http://login.paypal.verify-account.com/secure/login.php or Urgent! Update security details..."></textarea>
+        
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="runAnalysis()"><i class="fa-solid fa-bolt"></i> Analyze Input</button>
+          <button class="btn btn-secondary" onclick="clearInput()"><i class="fa-solid fa-eraser"></i> Clear</button>
+        </div>
+
+        <div style="margin-top: 24px;">
+          <p style="font-size: 13px; font-weight:700; color:var(--text-muted); margin-bottom:8px;">TRY SAMPLE TEST CASES:</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="sample-tag" onclick="loadSample(1)">Phishing IP URL</span>
+            <span class="sample-tag" onclick="loadSample(2)">Subdomain Spoofing</span>
+            <span class="sample-tag" onclick="loadSample(3)">Urgent Action Text</span>
+            <span class="sample-tag" onclick="loadSample(4)">Valid Standard Email</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size:20px;"></i>
+        <div>
+          <strong>Important Security Note:</strong> PhishGuard is an educational rule-based screening tool based on formal languages and automata theory.
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS TAB -->
+    <div id="results" class="tab-content">
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-square-poll-vertical" style="color:#81c784;"></i> Inspection Summary</div>
+        
+        <div id="scoreBanner" class="score-banner low">
+          <div>
+            <h3 id="riskTitle">Low Concern</h3>
+            <p id="riskDesc">No immediate high-severity regular expression patterns triggered.</p>
+          </div>
+          <div class="score-val" id="scoreVal">0/100</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px;">
+          <div style="background:var(--bg-cream); padding:16px; border-radius:var(--radius-md);">
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted);">EMAIL FORMAT VALIDITY</div>
+            <div id="emailFormatRes" style="font-weight:700; font-size:16px; margin-top:4px;">Not Applicable</div>
+          </div>
+          <div style="background:var(--bg-cream); padding:16px; border-radius:var(--radius-md);">
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted);">PATTERNS MATCHED</div>
+            <div id="patternCountRes" style="font-weight:700; font-size:16px; margin-top:4px;">0 Rules Triggered</div>
+          </div>
+        </div>
+
+        <h4 style="margin-bottom:12px;">Detailed Pattern Explanations</h4>
+        <div id="patternList">
+          <p style="color:var(--text-muted);">Run an analysis to view breakdown.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTOMATA VISUALIZER TAB -->
+    <div id="automata" class="tab-content">
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-diagram-project" style="color:#d4e157;"></i> DFA URL Prefix Recognizer</div>
+        <p style="color:var(--text-muted);">This Deterministic Finite Automaton (DFA) models formal language validation for URL protocol prefixes (<code>http://</code> or <code>https://</code>).</p>
+        
+        <div class="automaton-canvas" id="dfaNodes">
+          <div class="state-node start" id="state-q0">q0</div>
+          <div class="transition-arrow"><span class="transition-label">h</span></div>
+          <div class="state-node" id="state-q1">q1</div>
+          <div class="transition-arrow"><span class="transition-label">t</span></div>
+          <div class="state-node" id="state-q2">q2</div>
+          <div class="transition-arrow"><span class="transition-label">t</span></div>
+          <div class="state-node" id="state-q3">q3</div>
+          <div class="transition-arrow"><span class="transition-label">p</span></div>
+          <div class="state-node" id="state-q4">q4</div>
+          <div class="transition-arrow"><span class="transition-label">s / :</span></div>
+          <div class="state-node final" id="state-q5">q5</div>
+        </div>
+
+        <div style="margin-top:16px; display:flex; gap:12px; align-items:center;">
+          <button class="btn btn-secondary" onclick="simulateDFA()"><i class="fa-solid fa-play"></i> Step Execution</button>
+          <div id="dfaStatus" style="font-family:'JetBrains Mono', monospace; font-size:14px; font-weight:600;">Status: Ready</div>
+        </div>
+
+        <div style="margin-top:20px; background:var(--bg-cream); padding:16px; border-radius:var(--radius-md);">
+          <strong>Formal Definition:</strong> $M = (Q, \Sigma, \delta, q_0, F)$
+          <ul style="margin-left:20px; font-size:14px; margin-top:8px;">
+            <li>$Q = \{q_0, q_1, q_2, q_3, q_4, q_5\}$</li>
+            <li>$\Sigma = \{h, t, p, s, :, /\}$</li>
+            <li>$F = \{q_5\}$ (Accepting protocol state)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGEX LAB TAB -->
+    <div id="regex" class="tab-content">
+      <div class="card">
+        <div class="card-title"><i class="fa-solid fa-code" style="color:#b39ddb;"></i> Regex Pattern Repository</div>
+        <p style="color:var(--text-muted); margin-bottom:20px;">Explore the formal regular expressions used in PhishGuard alongside their explanations and interactive testing shortcuts.</p>
+        <div id="regexCards"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
