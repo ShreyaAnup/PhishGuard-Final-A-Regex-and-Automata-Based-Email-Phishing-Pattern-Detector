@@ -25,7 +25,7 @@
       --radius-md: 12px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-cream);
@@ -36,7 +36,7 @@
 
     header {
       background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-yellow) 50%, var(--pastel-green) 100%);
-      padding: 40px 20px;
+      padding: 50px 20px;
       text-align: center;
       border-bottom: 3px solid rgba(255,255,255,0.6);
       box-shadow: 0 4px 15px rgba(0,0,0,0.03);
@@ -57,49 +57,10 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
 
-    h1 { font-size: 38px; font-weight: 800; color: #1a202c; margin-bottom: 8px; }
+    h1 { font-size: 40px; font-weight: 800; color: #1a202c; margin-bottom: 8px; }
     .subtitle { font-size: 16px; color: #4a5568; max-width: 650px; margin: 0 auto; }
 
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin: 25px 0 -60px 0;
-      position: relative;
-      z-index: 10;
-    }
-
-    .nav-btn {
-      background: var(--card-bg);
-      border: 2px solid var(--border-light);
-      padding: 12px 24px;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text-main);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 20px -5px rgba(0,0,0,0.08); }
-    .nav-btn.active { border-color: transparent; }
-    .nav-btn[data-tab="dashboard"].active { background: var(--pastel-pink); }
-    .nav-btn[data-tab="results"].active { background: var(--pastel-green); }
-    .nav-btn[data-tab="automata"].active { background: var(--pastel-yellow); }
-    .nav-btn[data-tab="regex"].active { background: var(--pastel-purple); }
-
-    .container { max-width: 1100px; margin: 80px auto 0 auto; padding: 0 20px; }
-    .tab-content { display: none; animation: fadeIn 0.3s ease; }
-    .tab-content.active { display: block; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .container { max-width: 1000px; margin: 40px auto 0 auto; padding: 0 20px; display: flex; flex-direction: column; gap: 30px; }
 
     .card {
       background: var(--card-bg);
@@ -107,24 +68,26 @@
       padding: 32px;
       box-shadow: var(--shadow-soft);
       border: 1px solid rgba(0,0,0,0.03);
-      margin-bottom: 24px;
     }
 
-    .card-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .card-title { font-size: 22px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
 
-    textarea {
+    label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; color: #4a5568; }
+    
+    textarea, input[type="text"] {
       width: 100%;
-      height: 120px;
-      padding: 16px;
+      padding: 14px;
       border-radius: var(--radius-md);
       border: 2px solid var(--border-light);
       font-family: inherit;
       font-size: 15px;
-      resize: vertical;
+      margin-bottom: 16px;
+      transition: border-color 0.2s ease;
     }
-    textarea:focus { outline: none; border-color: var(--pastel-pink-dark); }
+    textarea { height: 110px; resize: vertical; }
+    textarea:focus, input[type="text"]:focus { outline: none; border-color: var(--pastel-pink-dark); }
 
-    .btn-group { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
     .btn {
       padding: 12px 28px;
       border-radius: 50px;
@@ -133,256 +96,8 @@
       font-size: 15px;
       cursor: pointer;
       transition: all 0.2s ease;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
     }
-    .btn-primary { background: var(--pastel-pink-dark); color: #000; }
-    .btn-primary:hover { background: #f48fb1; transform: translateY(-2px); }
-    .btn-secondary { background: var(--pastel-yellow); color: #000; }
-    .btn-secondary:hover { background: #fff176; }
-
-    .sample-tag {
-      background: var(--bg-cream);
-      border: 1px solid var(--border-light);
-      padding: 8px 14px;
-      border-radius: 50px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .sample-tag:hover { background: var(--pastel-green); }
-
-    .score-banner { display: flex; align-items: center; justify-content: space-between; border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px; }
-    .score-banner.low { background: var(--pastel-green); }
-    .score-banner.medium { background: var(--pastel-yellow); }
-    .score-banner.high { background: var(--pastel-pink); }
-    .score-val { font-size: 36px; font-weight: 800; }
-
-    .pattern-item { padding: 16px; border-radius: var(--radius-md); background: var(--bg-cream); margin-bottom: 12px; border-left: 5px solid #cbd5e0; }
-    .pattern-item.high { border-left-color: #f56565; }
-    .pattern-item.medium { border-left-color: #ed8936; }
-    .pattern-item.low { border-left-color: #48bb78; }
-
-    .automaton-canvas { display: flex; justify-content: space-between; align-items: center; padding: 40px 20px; background: #fafafa; border-radius: var(--radius-md); margin: 20px 0; overflow-x: auto; }
-    .state-node {
-      width: 65px; height: 65px; border-radius: 50%; border: 3px solid #718096;
-      display: flex; align-items: center; justify-content: center; font-weight: 800; background: #fff; position: relative; transition: all 0.3s ease;
-    }
-    .state-node.start::before { content: "▶"; position: absolute; left: -20px; color: #718096; }
-    .state-node.final { box-shadow: 0 0 0 4px #fff, 0 0 0 7px #718096; }
-    .state-node.active { background: var(--pastel-yellow-dark); border-color: #d69e2e; transform: scale(1.15); }
-    .state-node.accept { background: var(--pastel-green-dark); border-color: #38a169; color: white; }
-    .state-node.reject { background: var(--pastel-pink-dark); border-color: #e53e3e; color: white; }
-
-    .transition-arrow { flex: 1; height: 2px; background: #cbd5e0; position: relative; margin: 0 10px; display: flex; align-items: center; justify-content: center; }
-    .transition-arrow::after { content: "►"; position: absolute; right: -6px; color: #cbd5e0; font-size: 10px; }
-    .transition-label { background: #fff; padding: 2px 8px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; border: 1px solid #e2e8f0; margin-top: -20px; }
-
-    .regex-card { border: 2px solid var(--border-light); border-radius: var(--radius-md); padding: 20px; margin-bottom: 16px; background: #fff; }
-    .code-block { font-family: 'JetBrains Mono', monospace; background: #2d3748; color: #f7fafc; padding: 10px 14px; border-radius: 8px; font-size: 14px; display: inline-block; margin: 8px 0; }
-    .regex101-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--pastel-purple); color: #4a5568; padding: 6px 14px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 12px; }
-
-    .disclaimer { background: var(--pastel-yellow); padding: 16px; border-radius: var(--radius-md); font-size: 13px; color: #744210; margin-top: 24px; display: flex; gap: 12px; align-items: center; }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div class="header-content">
-      <span class="badge"><i class="fa-solid fa-shield-halved"></i> CS Practical Project</span>
-      <h1>PhishGuard</h1>
-      <p class="subtitle">A Regex & Finite Automata-Based Phishing Pattern Inspector</p>
-    </div>
-  </header>
-
-  <nav>
-    <button class="nav-btn active" data-tab="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</button>
-    <button class="nav-btn" data-tab="results"><i class="fa-solid fa-magnifying-glass"></i> Detection Results</button>
-    <button class="nav-btn" data-tab="automata"><i class="fa-solid fa-diagram-project"></i> Automata Visualizer</button>
-    <button class="nav-btn" data-tab="regex"><i class="fa-solid fa-code"></i> Regex Lab</button>
-  </nav>
-
-  <div class="container">
-
-    <!-- DASHBOARD TAB -->
-    <div id="dashboard" class="tab-content active">
-      <div class="card">
-        <div class="card-title"><i class="fa-solid fa-paste" style="color:#f7a8b8;"></i> Input Inspector</div>
-        <p style="margin-bottom:12px; color:var(--text-muted);">Enter an email address, URL, or suspicious message body to analyze with Regular Expressions & Deterministic Finite Automata (DFA).</p>
-        <textarea id="targetInput" placeholder="e.g., https:/youtube or http://192.168.1.105/paypal/login.php"></textarea>
-        
-        <div class="btn-group">
-          <button class="btn btn-primary" onclick="runAnalysis()"><i class="fa-solid fa-bolt"></i> Analyze Input</button>
-          <button class="btn btn-secondary" onclick="clearInput()"><i class="fa-solid fa-eraser"></i> Clear</button>
-        </div>
-
-        <div style="margin-top: 24px;">
-          <p style="font-size: 13px; font-weight:700; color:var(--text-muted); margin-bottom:8px;">TRY SAMPLE TEST CASES:</p>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <span class="sample-tag" onclick="loadSample(1)">Phishing IP URL</span>
-            <span class="sample-tag" onclick="loadSample(2)">Malformed URL Error</span>
-            <span class="sample-tag" onclick="loadSample(3)">Urgent Action Text</span>
-            <span class="sample-tag" onclick="loadSample(4)">Valid Standard Email</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="disclaimer">
-        <i class="fa-solid fa-triangle-exclamation" style="font-size:20px;"></i>
-        <div>
-          <strong>Important Security Note:</strong> PhishGuard is an educational rule-based screening tool based on formal languages and automata theory.
-        </div>
-      </div>
-    </div>
-
-    <!-- RESULTS TAB -->
-    <div id="results" class="tab-content">
-      <div class="card">
-        <div class="card-title"><i class="fa-solid fa-square-poll-vertical" style="color:#81c784;"></i> Inspection Summary</div>
-        
-        <div id="scoreBanner" class="score-banner low">
-          <div>
-            <h3 id="riskTitle">Low Concern</h3>
-            <p id="riskDesc">No immediate high-severity regular expression patterns triggered.</p>
-          </div>
-          <div class="score-val" id="scoreVal">0/100</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px;">
-          <div style="background:var(--bg-cream); padding:16px; border-radius:var(--radius-md);">
-            <div style="font-size:12px; font-weight:700; color:var(--text-muted);">EMAIL FORMAT VALIDITY</div>
-            <div id="emailFormatRes" style="font-weight:700; font-size:16px; margin-top:4px;">Not Applicable</div>
-          </div>
-          <div style="background:var(--bg-cream); padding:16px; border-radius:var(--radius-md);">
-            <div style="font-size:12px; font-weight:700; color:var(--text-muted);">PATTERNS MATCHED</div>
-            <div id="patternCountRes" style="font-weight:700; font-size:16px; margin-top:4px;">0 Rules Triggered</div>
-          </div>
-        </div>
-
-        <h4 style="margin-bottom:12px;">Detailed Pattern Explanations</h4>
-        <div id="patternList">
-          <p style="color:var(--text-muted);">Run an analysis to view breakdown.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- AUTOMATA VISUALIZER TAB -->
-    <div id="automata" class="tab-content">
-      <div class="card">
-        <div class="card-title"><i class="fa-solid fa-diagram-project" style="color:#d4e157;"></i> DFA URL Prefix Recognizer</div>
-        <p style="color:var(--text-muted);">This Deterministic Finite Automaton (DFA) models formal language validation for URL protocol prefixes (<code>http://</code> or <code>https://</code>).</p>
-        
-        <div class="automaton-canvas" id="dfaNodes">
-          <div class="state-node start" id="state-q0">q0</div>
-          <div class="transition-arrow"><span class="transition-label">h</span></div>
-          <div class="state-node" id="state-q1">q1</div>
-          <div class="transition-arrow"><span class="transition-label">t</span></div>
-          <div class="state-node" id="state-q2">q2</div>
-          <div class="transition-arrow"><span class="transition-label">t</span></div>
-          <div class="state-node" id="state-q3">q3</div>
-          <div class="transition-arrow"><span class="transition-label">p</span></div>
-          <div class="state-node" id="state-q4">q4</div>
-          <div class="transition-arrow"><span class="transition-label">s / :</span></div>
-          <div class="state-node final" id="state-q5">q5</div>
-        </div>
-
-        <div style="margin-top:16px; display:flex; gap:12px; align-items:center;">
-          <button class="btn btn-secondary" onclick="simulateDFA()"><i class="fa-solid fa-play"></i> Step Execution</button>
-          <div id="dfaStatus" style="font-family:'JetBrains Mono', monospace; font-size:14px; font-weight:600;">Status: Ready</div>
-        </div>
-
-        <div style="margin-top:20px; background:var(--bg-cream); padding:16px; border-radius:var(--radius-md);">
-          <strong>Formal Definition:</strong> $M = (Q, \Sigma, \delta, q_0, F)$
-          <ul style="margin-left:20px; font-size:14px; margin-top:8px;">
-            <li>$Q = \{q_0, q_1, q_2, q_3, q_4, q_5\}$</li>
-            <li>$\Sigma = \{h, t, p, s, :, /\}$</li>
-            <li>$F = \{q_5\}$ (Accepting protocol state)</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- REGEX LAB TAB -->
-    <div id="regex" class="tab-content">
-      <div class="card">
-        <div class="card-title"><i class="fa-solid fa-code" style="color:#b39ddb;"></i> Regex Pattern Repository</div>
-        <p style="color:var(--text-muted); margin-bottom:20px;">Explore the formal regular expressions used in PhishGuard alongside their explanations and interactive testing shortcuts.</p>
-        <div id="regexCards"></div>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    const REGEX_RULES = [
-      {
-        id: "email_val",
-        name: "Standard RFC 5322 Email Syntax",
-        pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-        explanation: "Validates format username@domain.tld using alphanumeric character sets.",
-        severity: "low",
-        weight: 0,
-        r101: "https://regex101.com/?regex=^[a-zA-Z0-9._%25%2B-]+@[a-zA-Z0-9.-]%2B\\.[a-zA-Z]{2,}$"
-      },
-      {
-        id: "malformed_url",
-        name: "Malformed URL / Broken Protocol Syntax",
-        pattern: "https?:\\/[^\\/]+|https?:$",
-        explanation: "Detects corrupted or malformed URL prefixes (e.g. single-slash protocols like https:/youtube or truncated links).",
-        severity: "medium",
-        weight: 30,
-        r101: "https://regex101.com/?regex=https?:\\/[^\\/]+"
-      },
-      {
-        id: "raw_ip",
-        name: "Raw IP Address Host Subversion",
-        pattern: "https?://(?:[0-9]{1,3}\\.){3}[0-9]{1,3}",
-        explanation: "Phishing URLs often use direct IP addresses instead of registered domain names to hide host identity.",
-        severity: "high",
-        weight: 40,
-        r101: "https://regex101.com/?regex=https?://(?:[0-9]{1,3}\\.){3}[0-9]{1,3}"
-      },
-      {
-        id: "excessive_subdomains",
-        name: "Subdomain Stacking / Brand Mimicry",
-        pattern: "https?://([a-zA-Z0-9-]+\\.)+\\w{2,}",
-        explanation: "Deeply nested subdomains deceive users into seeing legitimate brand names.",
-        severity: "high",
-        weight: 35,
-        r101: "https://regex101.com/?regex=https?://([a-zA-Z0-9-]+\\.)+\\w{2,}"
-      },
-      {
-        id: "urgency_keywords",
-        name: "Social Engineering Urgency Triggers",
-        pattern: "(verify your account|immediate action required|account suspended|unauthorized login|update security)",
-        explanation: "Psychological manipulation inducing panic to force hasty compliance without verification.",
-        severity: "medium",
-        weight: 25,
-        r101: "https://regex101.com/?regex=(verify+your+account|immediate+action+required)"
-      }
-    ];
-
-    // Robust Navigation Switcher
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetTab = btn.getAttribute('data-tab');
-        
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        
-        btn.classList.add('active');
-        const tabElement = document.getElementById(targetTab);
-        if (tabElement) {
-          tabElement.classList.add('active');
-        }
-      });
-    });
-
-    function loadSample(num) {
-      const input = document.getElementById('targetInput');
-      if (num === 1) input.value = "Security Alert! Login immediately at http://192.168.1.105/paypal/login.php to restore access.";
-      if (num === 2) input.value = "https:/youtube (Malformed protocol error test)";
-      if (num === 3) input.value = "
+    .btn-primary
